@@ -1,0 +1,11 @@
+#DIALOG > .frame {
+    background: rgba(0, 0, 0, 0);
+}
+
+#DIALOG > .frame > .head {
+    background: rgba(200, 0, 0, 0.3);
+}
+
+#DIALOG > .frame > .body {
+    background: rgba(0, 200, 0, 0.3);
+}

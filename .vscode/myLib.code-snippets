@@ -1,0 +1,344 @@
+{
+    "myLib_AJAX": {
+        "scope": "javascript",
+        "prefix": "myAJAX",
+        "body": "myLib.AJAX.get(`$1`, AJAX => {$0});"
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    "myLib_define_Class_js": {
+        "scope": "javascript",
+        "prefix": "myClass",
+        "body": [
+            "myLib$1.defineClass( //////////////////////////////////////////////////$3/////////////////////////////////////////// $2 ///",
+            "    /** @this {myLib$1.$2} */",
+            "    function $2() {",
+            "        myLib$4.call(this$0);",
+            "",
+            "        // Children",
+            "",
+            "        // Initialization",
+            "",
+            "    },",
+            "",
+            "    // Extends",
+            "    myLib$4,",
+            "",
+            "    // Events",
+            "    {",
+            "    },",
+            "",
+            "    // Accessors",
+            "    {",
+            "    },",
+            "",
+            "    // Methods",
+            "    {",
+            "    }",
+            ");"
+        ]
+    },
+
+    "myLib_define_Class_ts": {
+        "scope": "typescript",
+        "prefix": "myClass",
+        "body": [
+            "class $1 extends myLib$2 { ////////////////////////////////////////$3//////////////////////////////////////// $1 ///",
+            "    constructor();",
+            "    parent: $4;",
+            "",
+            "    // Children",
+            "    $0",
+            "",
+            "    // Properties",
+            "    // Accessors",
+            "    // Events",
+            "    // Listeners",
+            "    // Methods",
+            "} interface $1 {",
+            "    constructor: $1;",
+            "}",
+            "",
+            "namespace $1 {",
+            "}"
+        ]
+    },
+
+    "myLib_define_AbstractClass_js": {
+        "scope": "javascript",
+        "prefix": "myAbstractClass",
+        "body": [
+            "myLib$2.defineClass('$1', { /////////////////////////////////////////////$3///////////////////////////////////// $1 ///",
+            "    $0"
+            "});"
+        ]
+    },
+
+    "myLib_define_AbstractClass_ts": {
+        "scope": "typescript",
+        "prefix": "myAbstractClass",
+        "body": [
+            "abstract class $1 extends myLib$2 { ////////////////////////////////////////$3//////////////////////////////////////// $1 ///",
+            "    $0",
+            "}"
+        ]
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    "myLib_define_Accessor_js": {
+        "scope": "javascript",
+        "prefix": "myAccessor",
+        "body": [
+            "$1: {",
+            "    /** @this {myLib$2.prototype} */",
+            "    get() {",
+            "        return this.$3;",
+            "    },",
+            "",
+            "    /** @this {myLib$2.prototype} */",
+            "    set($1) {",
+            "        this.$3 = $1;",
+            "    }",
+            "}"
+        ]
+    },
+
+    "myLib_define_Accessor_ts": {
+        "scope": "typescript",
+        "prefix": "myAccessor",
+        "body": [
+            "get $1(): $2;",
+            "set $1(value: $2);"
+        ]
+    },
+
+    "myLib_define_Event_js": {
+        "scope": "javascript",
+        "prefix": "myEvent",
+        "body": [
+            "$1($3) { }"
+        ]
+    },
+
+    "myLib_define_Event_ts": {
+        "scope": "typescript",
+        "prefix": "myEvent",
+        "body": "$1(): $2;";
+    },
+
+    "myLib_define_Method_js": {
+        "scope": "javascript",
+        "prefix": "myMethod",
+        "body": [
+            "/** @this {myLib$2.prototype} */",
+            "$1($3) {",
+            "    $0",
+            "",
+            "    return this;",
+            "}"
+        ]
+    },
+
+    "myLib_define_Method_ts": {
+        "scope": "typescript",
+        "prefix": "myMethod",
+        "body": "$1(): $2;"
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    "myLib_define_Property_js": {
+        "scope": "javascript",
+        "prefix": "myProperty",
+        "body": [
+            "this.defineProperty('$1', $2);"
+        ]
+    },
+
+    "myLib_define_Child_js": {
+        "scope": "javascript",
+        "prefix": "myChild",
+        "body": [
+            "this.defineChild('$1', new myLib$2.${1/(.*)/${1:/capitalize}/}());"
+        ]
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    "myLib_eXtends_Animation_js": {
+        "scope": "javascript",
+        "prefix": "myxAnimation",
+        "body": [
+            "// Mixin",
+            "myLib.Animation,",
+            "{",
+            "    /** @this {myLib$1.prototype} */",
+            "    onAnimationStart(name) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onAnimationFrame(dt, f, name) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onAnimationEnd(name) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onAnimationBreak(name) { }",
+            "}"
+        ]
+    },
+
+    "myLib_eXtends_Animation_ts": {
+        "scope": "typescript",
+        "prefix": "myxAnimation",
+        "body": [
+            "// Listeners",
+            "onAnimationStart(name?: string): boolean | void;",
+            "onAnimationFrame(dt?: number, f?: number, name?: string): boolean | void;",
+            "onAnimationEnd(name?: string): void;",
+            "onAnimationBreak(name?: string): void;"
+        ]
+    },
+
+    "myLib_eXtends_Scroll_js": {
+        "scope": "javascript",
+        "prefix": "myxScroll",
+        "body": [
+            "// Mixin",
+            "myLib.Scroll,",
+            "{",
+            "    /** @this {myLib$1.prototype} */",
+            "    onAnimationStart(name) {",
+            "        switch (name) {",
+            "            default:",
+            "                myLib.Scroll.proto('onAnimationStart').call(this, name);",
+            "                return;",
+            "            ",
+            "        }",
+            "    },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onAnimationFrame(dt, f, name) {",
+            "        switch (name) {",
+            "            default:",
+            "                myLib.Scroll.proto('onAnimationFrame').call(this, name);",
+            "                return;",
+            "            ",
+            "        }",
+            "    },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onAnimationEnd(name) {",
+            "        switch (name) {",
+            "            default:",
+            "                myLib.Scroll.proto('onAnimationEnd').call(this, name);",
+            "                return;",
+            "            ",
+            "        }",
+            "    },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onAnimationBreak(name) {",
+            "        switch (name) {",
+            "            default:",
+            "                myLib.Scroll.proto('onAnimationBreak').call(this, name);",
+            "                return;",
+            "            ",
+            "        }",
+            "    },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onResize(capture) {",
+            "        myLib.Scroll.proto('onResize').call(this, capture);",
+            "        if (capture) {",
+            "            $0",
+            "",
+            "            return true;",
+            "        }",
+            "    },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onScroll(scrollLeft, scrollTop, zoom) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onTap(target) { }",
+            "}"
+        ]
+    },
+
+    "myLib_eXtends_Scroll_ts": {
+        "scope": "typescript",
+        "prefix": "myxScroll",
+        "body": [
+            "// Listeners",
+            "onResize(capture?: boolean): boolean | void;",
+            "onScroll(scrollLeft?: number, scrollTop?: number, zoom?: number): void;",
+            "onTap(target?: HTMLElement): boolean | void;"
+        ]
+    },
+
+    "myLib_eXtends_Touch_js": {
+        "scope": "javascript",
+        "prefix": "myxTouch",
+        "body": [
+            "// Mixin",
+            "myLib.Touch,",
+            "{",
+            "    /** @this {myLib$1.prototype} */",
+            "    onBlur(target) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onFocus(target) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onHold(target) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onKeyDown(code, key, modifiers) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onTap(target) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onTouchStart(target) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onTouchMove(dX, dY, kR) { },",
+            "",
+            "    /** @this {myLib$1.prototype} */",
+            "    onTouchEnd() { }",
+            "}"
+        ]
+    },
+
+    "myLib_eXtends_Touch_ts": {
+        "scope": "typescript",
+        "prefix": "myxTouch",
+        "body": [
+            "// Listeners",
+            "onBlur(target?: EventTarget): void;",
+            "onFocus(target?: EventTarget): void;",
+            "onHold(target?: EventTarget): boolean | void;",
+            "onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;",
+            "onTap(target?: HTMLElement): boolean | void;",
+            "onTouchStart(target?: EventTarget): boolean | void;",
+            "onTouchMove(dX?: number, dY?: number, kR?: number): boolean | void;",
+            "onTouchEnd(): boolean | void;"
+        ]
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    "JSDoc_this_js": {
+        "scope": "javascript",
+        "prefix": "jsdT",
+        "body": "/** @this {$0} */"
+    },
+
+    "JSDoc_type_js": {
+        "scope": "javascript",
+        "prefix": "jsdY",
+        "body": "/** @type {$0} */"
+    }
+}

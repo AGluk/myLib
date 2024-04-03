@@ -1,0 +1,7 @@
+#FORM form > div {
+    padding-bottom: 10px;
+}
+
+#FORM form > div:last-of-type {
+    padding-bottom: 0;
+}

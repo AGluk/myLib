@@ -1,0 +1,31 @@
+{
+    "editor.minimap.enabled": false,
+    "editor.rulers": [140],
+
+    "javascript.suggestionActions.enabled": false,
+
+    "files.exclude": {
+        "**/*.cache.*": true
+    },
+
+    "macros": {
+        "asterix4": [
+            {"command": "type", "args": {"text": "****"}}
+        ],
+        "br": [
+            {"command": "type", "args": {"text": "<br>"}}
+        ],
+        "dash4": [
+            {"command": "type", "args": {"text": "----"}}
+        ],
+        "deleteLeft4": [
+            "deleteLeft",
+            "deleteLeft",
+            "deleteLeft",
+            "deleteLeft"
+        ],
+        "slash4": [
+            {"command": "type", "args": {"text": "////"}}
+        ],
+    }
+}
