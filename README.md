@@ -1,17 +1,24 @@
 # myLib
-JavaScript/PHP/CSS library for ease of use OOP in Web Development
+**JavaScript/PHP/CSS** library for making ease of using OOP style in Web Development.
 
-Please use 'example.com' for a bit understanding how to use my library.<br>
-Will be appreciated for any help in creating detailed documentation.<br>
-Will be glad to answer on any questions if you find myLib good enough for you.<br>
+Supposed you will use Microsoft **VSCode** as your development IDE.<br>
+**myLib** includes some settings and snippets for **VSCode** (see `.vscode` for more details).<br>
+It also includes **TypeScript** declaration files (`*.d.ts`) for proper operation **IntelliSense** as well as **Python** scripts.
 
-## hosts
+Please use ```example.com``` for a bit understanding how to use **myLib**.<br>
+Looking for any help in creating detailed documentation.<br>
+Will be glad to answer on any questions if you find **myLib** interesting.<br>
+
+For trying example project, put all files to the server's root directory and add some code to configuration files.<br>
+Some methods in **myLib** uses **ImageMagick** and **Pear** PHP extensions. Install them if missing.
+
+### /etc/hosts
 ```
 127.0.0.1   loc.example.com
 ::1         loc.example.com
 ```
 
-## httpd-vhosts.conf
+### /etc/apache2/sites-available/default.conf
 ```
 <VirtualHost *:80>
     ServerName example.com
