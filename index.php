@@ -1,4 +1,5 @@
 <?php
+
 $includes = [];
 function includes_push($path, $base = null) {
     global $includes;
@@ -107,27 +108,22 @@ $buffer = preg_replace_callback("#</head>#i", function () use ($includes) {
 $buffer = preg_replace("#</head>#i", "<script>let GET=" . (count($_GET) > 0 ? json_encode($_GET, JSON_UNESCAPED_SLASHES) : "{}") . "</script></head>", $buffer);
 
 // Cache
-$buffer = preg_replace_callback("#( (?:href|src)=['\"])/?(.*?)(['\"])#i", function ($match) {
-    if (file_exists($match[2])) {
+$buffer = preg_replace_callback("#( (?:href|src)=(['\"]))/?(.*?)\\2#i", function ($match) {
+    if (file_exists($match[3])) {
         return $match[1] . preg_replace_callback("#((.*/)?.*/)?(.*)\.(.*)#", function ($path) {
             $filemtime = filemtime("$path[1]$path[3].$path[4]");
             switch ($path[4]) {
                 case "css":
                     if (!file_exists("$path[1]$path[3].cache.$path[4]") || (filemtime("$path[1]$path[3].cache.$path[4]") !== $filemtime)) {
                         $buffer = preg_replace("#^[ \t]*(.*?)[\r\n]+#m", "$1", file_get_contents("$path[1]$path[3].$path[4]"));
-
-                        $buffer = preg_replace("#/[*].*?[*]/#", "", preg_replace_callback("#/[*]{(.*?)}[*]/#", function ($match) use ($path) {
-                            return getFileContents("$path[1]$match[1]");
-                        }, $buffer));
-
                         $buffer = preg_replace("#[ \t]*([\{\}\:\;\,\>])[ \t]*#", "$1", $buffer);
                         $buffer = preg_replace("#[ \t]{2,}#", " ", $buffer);
 
-                        $buffer = preg_replace_callback("#(:url[(]['\"])(.*?)(['\"][)])#i", function ($match) use ($path) {
-                            if (file_exists("$path[1]$match[2]")) {
-                                return "$match[1]$match[2]?" . filemtime("$path[1]$match[2]") . "$match[3]";
+                        $buffer = preg_replace_callback("#(:url[(](['\"]))(.*?)(\\2[)])#i", function ($match) use ($path) {
+                            if (file_exists("$path[1]$match[3]")) {
+                                return "$match[1]$match[3]?" . filemtime("$path[1]$match[3]") . $match[4];
                             } else {
-                                return "$match[0]";
+                                return $match[0];
                             }
                         }, $buffer);
 
@@ -142,10 +138,11 @@ $buffer = preg_replace_callback("#( (?:href|src)=['\"])/?(.*?)(['\"])#i", functi
                         $buffer = file_get_contents("$path[1]$path[3].$path[4]");
                         $buffer = preg_replace("#(^|[ \t]+)//.*#m", "", $buffer);
                         $buffer = preg_replace("#^[ \t]*(.*?)[\r\n]+#m", "$1", $buffer);
+                        $buffer = preg_replace("#/[*][*].*?[*]/#", "", $buffer);
 
-                        $buffer = preg_replace("#/[*].*?[*]/#", "", preg_replace_callback("#/[*]{(.*?)}[*]/#", function ($match) use ($path) {
-                            return getFileContents("$path[1]$match[1]");
-                        }, $buffer));
+                        $buffer = preg_replace_callback("#(['\"]){(.*?)}\\1#", function ($match) use ($path) {
+                            return $match[1] . getFileContents("$path[1]$match[2]") . $match[1];
+                        }, $buffer);
 
                         $buffer = preg_replace("#[ \t]*([!]?[\&\|\+\-\*\/\<\=\>]+[=]?)[ \t]*#", "$1", $buffer);
                         $buffer = preg_replace("#[ \t]*([\{\}\:\;\,])[ \t]*#", "$1", $buffer);
@@ -155,11 +152,11 @@ $buffer = preg_replace_callback("#( (?:href|src)=['\"])/?(.*?)(['\"])#i", functi
                         $buffer = str_replace("../", $path[2], $buffer);
                         $buffer = str_replace("./", $path[1], $buffer);
 
-                        $buffer = preg_replace_callback("#(\.src=[`'\"])/?(.*?)([`'\"])#i", function ($match) {
-                            if (file_exists($match[2])) {
-                                return "$match[1]$match[2]?" . filemtime($match[2]) . "$match[3]";
+                        $buffer = preg_replace_callback("#(\.src=([`'\"]))/?(.*?)\\2#i", function ($match) {
+                            if (file_exists($match[3])) {
+                                return "$match[1]$match[3]?" . filemtime($match[3]) . $match[2];
                             } else {
-                                return "$match[1]$match[2]$match[3]";
+                                return $match[0];
                             }
                         }, $buffer);
 
@@ -172,9 +169,9 @@ $buffer = preg_replace_callback("#( (?:href|src)=['\"])/?(.*?)(['\"])#i", functi
                 default:
                     return "$path[1]$path[3].$path[4]?$filemtime";
             }
-        }, $match[2]) . $match[3];
+        }, $match[3]) . $match[2];
     } else {
-        return "$match[1]$match[2]$match[3]";
+        return $match[0];
     }
 }, $buffer);
 

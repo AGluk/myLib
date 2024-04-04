@@ -19,7 +19,7 @@ class Image {
 if (isset($_GET['src']) && file_exists($_GET['src'])) {
     $images = [];
     foreach (scandir($_GET['src']) as $file) {
-        if (preg_match("#(.*)\.(jpg|png)$#i", $file, $name)) {
+        if (preg_match("#(.*)\.(jpg|jpeg|png)$#i", $file, $name)) {
             $path = "$_GET[src]/$file";
             $date = filemtime($path);
             list($width, $height) = getimagesize($path);

@@ -20,11 +20,11 @@ if (isset($_GET['src']) && file_exists("$_GET[src]/index.php")) {
     $buffer = preg_replace("#(<a [^>]*)#", '$1 ondragstart="return false"', $buffer);
     $buffer = preg_replace("#(<img [^>]*)#", '$1 ondragstart="return false"', $buffer);
 
-    $buffer = preg_replace_callback("#( (?:href|src)=['\"])/?(.*?)(['\"])#i", function ($match) {
+    $buffer = preg_replace_callback("#( (?:href|src)=(['\"]))/?(.*?)\\2#i", function ($match) {
         if (file_exists($match[2])) {
-            return "$match[1]$match[2]?" . filemtime($match[2]) . "$match[3]";
+            return "$match[1]$match[3]?" . filemtime($match[3]) . $match[2];
         } else {
-            return "$match[1]$match[2]$match[3]";
+            return $match[0];
         }
     }, $buffer);
 

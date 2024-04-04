@@ -71,7 +71,7 @@ myLib.Page.onLoaded = function () {
         pano.onTap = function () {
             let layer = new myLib.Layer('pano'); // Create layer
 
-            pano = new myLib.myPano("./pano");
+            pano = new myLib.myPano("./pano"); // Creating pano and setting path to the source textures
             layer.appendChild(pano); // Append pano to layer
 
             layer.onResize = function () { // Override 'onResize' method for center pano on the layer

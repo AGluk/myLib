@@ -14,19 +14,14 @@ function getFileContents($path) {
 if (isset($_GET['src']) && file_exists("$_GET[src]/index.css")) {
     if (!file_exists("$_GET[src]/index.cache.css") || (filemtime("$_GET[src]/index.cache.css") !== filemtime("$_GET[src]/index.css"))) {
         $buffer = preg_replace("#^[ \t]*(.*?)[\r\n]+#m", "$1", file_get_contents("$_GET[src]/index.css"));
-
-        $buffer = preg_replace("#/[*].*?[*]/#", "", preg_replace_callback("#/[*]{(.*?)}[*]/#", function ($match) {
-            return getFileContents("$_GET[src]/$match[1]");
-        }, $buffer));
-
         $buffer = preg_replace("#[ \t]*([\{\}\:\;\,\>])[ \t]*#", "$1", $buffer);
         $buffer = preg_replace("#[ \t]{2,}#", " ", $buffer);
 
-        $buffer = preg_replace_callback("#(:url[(]['\"])(.*?)(['\"][)])#i", function ($match) {
-            if (file_exists("$_GET[src]/$match[2]")) {
-                return "$match[1]$match[2]?" . filemtime("$_GET[src]/$match[2]") . "$match[3]";
+        $buffer = preg_replace_callback("#(:url[(](['\"]))(.*?)(\\2[)])#i", function ($match) {
+            if (file_exists("$_GET[src]/$match[3]")) {
+                return "$match[1]$match[3]?" . filemtime("$_GET[src]/$match[3]") . $match[4];
             } else {
-                return "$match[0]";
+                return $match[0];
             }
         }, $buffer);
 
