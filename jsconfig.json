@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "checkJs": true,
+        "module": "CommonJS",
+        "target": "ES2019"
+      },
+
+      "exclude": [
+        "**/*.cache.*",
+        "/lib/myLib.js",
+        "node_modules"
+    ]
+}

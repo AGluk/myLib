@@ -1,0 +1,238 @@
+.dialog {
+    pointer-events: auto;
+}
+
+/******************************************************************************************************************************************/
+
+.dialog > .load {
+    top: 50%;
+    left: 50%;
+    width: 32px;
+    height: 32px;
+
+    background: white;
+    border-radius: 24px;
+    margin-top: -24px;
+    margin-left: -24px;
+    opacity: 0.5;
+    padding: 8px;
+    position: absolute;
+    transition: opacity 300ms linear;
+    z-index: 0;
+}
+
+/******************************************************************************************************************************************/
+
+.dialog > .frame {
+    max-width: calc(100% - 40px);
+    max-height: calc(100% - 40px);
+
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    transition: opacity 300ms linear;
+    z-index: 1;
+}
+
+.dialog > .frame > .head {
+    cursor: default;
+    pointer-events: auto;
+    text-align: center;
+    z-index: 0;
+}
+
+.dialog > .frame > .body {
+    z-index: 0;
+}
+
+.dialog > .frame > .body > .content {
+    text-align: center;
+}
+
+.dialog > .frame > .close {
+    content: url("images/cross.svg");
+    width: 0;
+    height: 0;
+
+    cursor: pointer;
+    display: none;
+    pointer-events: auto;
+    position: absolute;
+    z-index: 1;
+}
+
+/******************************************************************************************************************************************/
+
+.dialog.error > .frame {
+    min-width: 80%;
+    min-height: 68px;
+}
+
+.dialog.error > .frame:before {
+    content: url("images/error.svg");
+    top: 50%;
+    left: 10px;
+    width: 48px;
+    height: 48px;
+
+    margin-top: -24px;
+    position: absolute;
+    z-index: 1;
+}
+
+.dialog.error > .frame:after {
+    content: url("images/error.svg");
+    top: 50%;
+    right: 10px;
+    width: 48px;
+    height: 48px;
+
+    margin-top: -24px;
+    position: absolute;
+    z-index: 1;
+}
+
+.dialog.error > .frame > .head {
+    margin: 0 68px;
+}
+
+.dialog.error > .frame > .body {
+    margin: 0 68px;
+    min-height: 68px;
+}
+
+.dialog.error > .frame > .close {
+    display: none !important;
+}
+
+/******************************************************************************************************************************************/
+
+.dialog.info > .frame {
+    min-width: 80%;
+    min-height: 68px;
+}
+
+.dialog.info > .frame:before {
+    content: url("images/info.svg");
+    top: 50%;
+    left: 10px;
+    width: 48px;
+    height: 48px;
+
+    margin-top: -24px;
+    position: absolute;
+    z-index: 1;
+}
+
+.dialog.info > .frame:after {
+    content: url("images/info.svg");
+    top: 50%;
+    right: 10px;
+    width: 48px;
+    height: 48px;
+
+    margin-top: -24px;
+    position: absolute;
+    z-index: 1;
+}
+
+.dialog.info > .frame > .head {
+    margin: 0 68px;
+}
+
+.dialog.info > .frame > .body {
+    margin: 0 68px;
+    min-height: 68px;
+}
+
+.dialog.info > .frame > .close {
+    display: none !important;
+}
+
+/******************************************************************************************************************************************/
+
+.dialog.ok > .frame {
+    min-width: 80%;
+    min-height: 68px;
+}
+
+.dialog.ok > .frame:before {
+    content: url("images/ok.svg");
+    top: 50%;
+    left: 10px;
+    width: 48px;
+    height: 48px;
+
+    margin-top: -24px;
+    position: absolute;
+    z-index: 1;
+}
+
+.dialog.ok > .frame:after {
+    content: url("images/ok.svg");
+    top: 50%;
+    right: 10px;
+    width: 48px;
+    height: 48px;
+
+    margin-top: -24px;
+    position: absolute;
+    z-index: 1;
+}
+
+.dialog.ok > .frame > .head {
+    margin: 0 68px;
+}
+
+.dialog.ok > .frame > .body {
+    margin: 0 68px;
+    min-height: 68px;
+}
+
+.dialog.ok > .frame > .close {
+    display: none !important;
+}
+
+/******************************************************************************************************************************************/
+
+.dialog.warning > .frame {
+    min-width: 80%;
+    min-height: 68px;
+}
+
+.dialog.warning > .frame:before {
+    content: url("images/warning.svg");
+    top: 50%;
+    left: 10px;
+    width: 48px;
+    height: 48px;
+
+    margin-top: -24px;
+    position: absolute;
+    z-index: 1;
+}
+
+.dialog.warning > .frame:after {
+    content: url("images/warning.svg");
+    top: 50%;
+    right: 10px;
+    width: 48px;
+    height: 48px;
+
+    margin-top: -24px;
+    position: absolute;
+    z-index: 1;
+}
+
+.dialog.warning > .frame > .head {
+    margin: 0 68px;
+}
+
+.dialog.warning > .frame > .body {
+    margin: 0 68px;
+    min-height: 68px;
+}
+
+.dialog.warning > .frame > .close {
+    display: none !important;
+}

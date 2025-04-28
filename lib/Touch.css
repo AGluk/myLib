@@ -1,0 +1,40 @@
+html,
+body {
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: none;
+}
+
+body,
+body * {
+    pointer-events: none;
+    touch-action: none;
+
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+body a, input {
+    pointer-events: auto;
+}
+
+body input {
+    user-select: auto;
+    -moz-user-select: auto;
+    -webkit-user-select: auto;
+}
+
+.cover {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    cursor: move;
+    pointer-events: auto;
+    position: fixed;
+}
+
+.touchable {
+    pointer-events: auto;
+}
