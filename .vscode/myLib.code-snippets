@@ -125,7 +125,7 @@
     "myLib_define_Event_ts": {
         "scope": "typescript",
         "prefix": "myEvent",
-        "body": "$1(): $2;";
+        "body": "$1(): $2;"
     },
 
     "myLib_define_Method_js": {

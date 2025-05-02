@@ -323,6 +323,9 @@ declare namespace myLib {
                 get maxHeight(): number;
                 set maxHeight(value: number);
 
+                get background(): string;
+                set background(value: string);
+
                 get backgroundImage(): string;
                 set backgroundImage(value: string);
 
