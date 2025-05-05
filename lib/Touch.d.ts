@@ -2,6 +2,9 @@ declare namespace myLib {
     abstract class Touch extends myLib { ///////////////////////////////////////////////////////////////////////////////////// Touch ///
         constructor();
 
+        // Static
+        static force_wheel: boolean;
+
         // Properties
         touch: Touch.Gizmo;
 
