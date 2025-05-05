@@ -122,4 +122,6 @@ declare namespace myLib {
             constructor: Load;
         }
     }
+
+    let dialogs: Map<Dialog | null>;
 }

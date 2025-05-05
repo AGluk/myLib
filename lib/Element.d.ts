@@ -136,6 +136,27 @@ declare namespace myLib {
                 constructor: Form;
             }
 
+            class IFrame extends HTML { ///////////////////////////////////////////////////////////////////////////// IFrame ///
+                constructor(target?: HTMLIFrameElement, className?: string, id?: string);
+                constructor(className?: string, id?: string);
+
+                target: HTMLIFrameElement;
+
+                // Events
+                onLoaded(): void;
+
+                // Accessors
+                get contentWindow(): Window;
+
+                get src(): string;
+                set src(value: string);
+
+                // Methods
+                postMessage(data: any): this;
+            } interface IFrame {
+                constructor: IFrame;
+            }
+
             class Image extends HTML { /////////////////////////////////////////////////////////////////////////////// Image ///
                 constructor(target?: HTMLImageElement, className?: string, id?: string);
                 constructor(className?: string, id?: string);
@@ -365,6 +386,9 @@ declare namespace myLib {
                 get paddingBottom(): number;
                 set paddingBottom(value: number);
 
+                get position(): string;
+                set position(value: string);
+
                 get perspective(): number;
                 set perspective(value: number);
 
@@ -382,6 +406,9 @@ declare namespace myLib {
 
                 get transition(): string;
                 set transition(value: string);
+
+                get zIndex(): number;
+                set zIndex(value: number);
 
                 // Methods
 

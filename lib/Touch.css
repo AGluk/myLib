@@ -14,7 +14,7 @@ body * {
     -webkit-user-select: none;
 }
 
-body a, input {
+body a, iframe, input {
     pointer-events: auto;
 }
 

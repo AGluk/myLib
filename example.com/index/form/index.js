@@ -2,7 +2,7 @@
 'use strict';
 
 /** @this {myLib.Dialog} */
-myLib.Dialog.onLoaded = function () {
+myLib.dialogs['form'].onLoaded = function () {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     let form = new myLib.Form(this.forms['my_form']);
 

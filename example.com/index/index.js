@@ -53,9 +53,8 @@ myLib.Page.onLoaded = function () {
 
     let form = new myLib.Form.Button(main_form.inputs['form']); ////////////////////////////////////////////////////////////////////////
     form.onTap = function () {
-        let form = new myLib.Dialog('FORM'); // Create dialog with ID=FORM
-
-        form.append(true).setSrc("./form"); // Show modal dialog (sending 'true' to append) and setting it source dir
+        myLib.dialogs['form'] = new myLib.Dialog('FORM'); // Create dialog with ID=FORM
+        myLib.dialogs['form'].append(true).setSrc("./form"); // Show modal dialog (sending 'true' to append) and setting it source dir
         return true; // Stop propagation
     };
 
