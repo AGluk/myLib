@@ -1,4 +1,4 @@
-.scroll {
+.my-scroll {
     overflow: hidden;
     pointer-events: auto;
     position: relative;
@@ -8,7 +8,7 @@
 
 /******************************************************************************************************************************************/
 
-.scroll > .content {
+.my-scroll-content {
     border: none !important;
     display: inline-block;
     position: relative;
@@ -17,7 +17,7 @@
 
 /******************************************************************************************************************************************/
 
-.scroll > .hscroll {
+.my-scroll-hscroll {
     left: 0;
     right: 0;
     bottom: 0;
@@ -30,11 +30,11 @@
     z-index: 1;
 }
 
-.scroll > .hscroll:hover {
+.my-scroll-hscroll:hover {
     opacity: 1 !important;
 }
 
-.scroll > .hscroll > .bar {
+.my-scroll-hscroll-bar {
     top: 4px;
     left: 4px;
     right: 4px;
@@ -43,7 +43,7 @@
     position: absolute;
 }
 
-.scroll > .hscroll > .bar > .lever {
+.my-scroll-hscroll-bar-lever {
     top: 0;
     bottom: 0;
 
@@ -55,7 +55,7 @@
 
 /******************************************************************************************************************************************/
 
-.scroll > .vscroll {
+.my-scroll-vscroll {
     top: 0;
     right: 0;
     bottom: 0;
@@ -68,11 +68,11 @@
     z-index: 1;
 }
 
-.scroll > .vscroll:hover {
+.my-scroll-vscroll:hover {
     opacity: 1 !important;
 }
 
-.scroll > .vscroll > .bar {
+.my-scroll-vscroll-bar {
     top: 4px;
     left: 4px;
     right: 4px;
@@ -81,7 +81,7 @@
     position: absolute;
 }
 
-.scroll > .vscroll > .bar > .lever {
+.my-scroll-vscroll-bar-lever {
     left: 0;
     right: 0;
 

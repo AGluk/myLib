@@ -1,34 +1,23 @@
 <?php
 
-$includes = [];
-function includes_push($path, $base = null) {
-    global $includes;
+$scripts = [];
+function includes_push($script, $base = null) {
+    global $scripts;
 
-    if (!in_array($path, $includes)) {
+    if (!in_array($script, $scripts)) {
         if ($base === null) {
-            array_push($includes, $path);
+            array_push($scripts, $script);
         } else {
-            array_splice($includes, array_flip($includes)[$base], 0, $path);
+            array_splice($scripts, array_flip($scripts)[$base], 0, $script);
         }
 
-        foreach (getIncludes($path) as $include)
-            includes_push($include, $path);
+        foreach (getIncludes($script) as $include)
+            includes_push($include, $script);
     }
 }
 
-function getFileContents($path) {
-    if (file_exists($path)) {
-        preg_match("#(.*/)?(.*)#", $path, $path);
-        return preg_replace_callback("#/[*]{(.*?)}[*]/#", function ($match) use ($path) {
-            return getFileContents("$path[1]$match[1]");
-        }, preg_replace("#^[ \t]*(.*?)[\r\n]+#m", "$1", file_get_contents($path[0])));
-    } else {
-        return "";
-    }
-}
-
-function getIncludes($path) {
-    preg_match("#(.*/).*#", $path, $path);
+function getIncludes($script) {
+    preg_match("#(.*/).*#", $script, $path);
 
     $includes = [];
 
@@ -40,6 +29,17 @@ function getIncludes($path) {
     }
 
     return $includes;
+}
+
+function getFileContents($path) {
+    if (file_exists($path)) {
+        preg_match("#(.*/)?(.*)#", $path, $path);
+        return preg_replace_callback("#(['\"]){(.*?)}\\1#", function ($match) use ($path) {
+            return getFileContents("$path[1]$match[2]");
+        }, preg_replace("#^[ \t]*(.*?)[\r\n]+#m", "$1", file_get_contents($path[0])));
+    } else {
+        return "";
+    }
 }
 
 // URI
@@ -54,7 +54,7 @@ if ($_SERVER['QUERY_STRING'] !== "") {
 }
 
 // Index
-$HTTP_HOST = preg_replace("#^www\.|^loc\.#i", "", $_SERVER['HTTP_HOST']);
+$HTTP_HOST = preg_replace("#^www\.|^dir.|^loc\.#i", "", $_SERVER['HTTP_HOST']);
 
 if (file_exists($HTTP_HOST)) {
     $cwd = getcwd();
@@ -92,14 +92,15 @@ chdir($cwd);
 // Includes
 includes_push("$HTTP_HOST/index.js");
 
-$buffer = preg_replace_callback("#</head>#i", function () use ($includes) {
+$buffer = preg_replace_callback("#</head>#i", function () use ($scripts) {
     $buffer = "";
 
-    for ($i = 0; $i < count($includes); $i++) {
-        $buffer .= "<script type=\"application/javascript\" src=\"$includes[$i]\"></script>";
-        if (file_exists($style = str_replace(".js", ".css", $includes[$i])))
+    foreach ($scripts as $script)
+        $buffer .= "<script defer type=\"application/javascript\" src=\"$script\"></script>";
+
+    foreach ($scripts as $script)
+        if (file_exists($style = str_replace(".js", ".css", $script)))
             $buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$style\">";
-    }
 
     return $buffer . "</head>";
 }, $buffer);
@@ -108,7 +109,7 @@ $buffer = preg_replace_callback("#</head>#i", function () use ($includes) {
 $buffer = preg_replace("#</head>#i", "<script>let GET=" . (count($_GET) > 0 ? json_encode($_GET, JSON_UNESCAPED_SLASHES) : "{}") . "</script></head>", $buffer);
 
 // Cache
-$buffer = preg_replace_callback("#( (?:href|src)=(['\"]))/?(.*?)\\2#i", function ($match) {
+$buffer = preg_replace_callback("#(\s(?:href|src)=(['\"]))/?(.*?)\\2#i", function ($match) {
     if (file_exists($match[3])) {
         return $match[1] . preg_replace_callback("#((.*/)?.*/)?(.*)\.(.*)#", function ($path) {
             $filemtime = filemtime("$path[1]$path[3].$path[4]");
@@ -116,6 +117,7 @@ $buffer = preg_replace_callback("#( (?:href|src)=(['\"]))/?(.*?)\\2#i", function
                 case "css":
                     if (!file_exists("$path[1]$path[3].cache.$path[4]") || (filemtime("$path[1]$path[3].cache.$path[4]") !== $filemtime)) {
                         $buffer = preg_replace("#^[ \t]*(.*?)[\r\n]+#m", "$1", file_get_contents("$path[1]$path[3].$path[4]"));
+                        $buffer = preg_replace("#/[*].*?[*]/#", "", $buffer);
                         $buffer = preg_replace("#[ \t]*([\{\}\:\;\,\>])[ \t]*#", "$1", $buffer);
                         $buffer = preg_replace("#[ \t]{2,}#", " ", $buffer);
 
@@ -145,20 +147,21 @@ $buffer = preg_replace_callback("#( (?:href|src)=(['\"]))/?(.*?)\\2#i", function
                         }, $buffer);
 
                         $buffer = preg_replace("#[ \t]*([!]?[\&\|\+\-\*\/\<\=\>]+[=]?)[ \t]*#", "$1", $buffer);
-                        $buffer = preg_replace("#[ \t]*([\{\}\:\;\,])[ \t]*#", "$1", $buffer);
-                        $buffer = preg_replace("#(for|function|if|switch|while)[ \t]*[(](.*?)[)][ \t]*#", "$1($2)", $buffer);
+                        $buffer = preg_replace("#[ \t]*([():;,])[ \t]*#", "$1", $buffer);
                         $buffer = preg_replace("#[ \t]+#", " ", $buffer);
 
-                        $buffer = str_replace("../", $path[2], $buffer);
-                        $buffer = str_replace("./", $path[1], $buffer);
+                        $buffer = str_replace("../", "/$path[2]", $buffer);
+                        $buffer = str_replace("./", "/$path[1]", $buffer);
 
-                        $buffer = preg_replace_callback("#(\.src=([`'\"]))/?(.*?)\\2#i", function ($match) {
+                        $buffer = preg_replace_callback("#(\.(?:href|src)=([`'\"]))/(.*?)\\2#i", function ($match) {
                             if (file_exists($match[3])) {
                                 return "$match[1]$match[3]?" . filemtime($match[3]) . $match[2];
                             } else {
                                 return $match[0];
                             }
                         }, $buffer);
+
+                        $buffer = preg_replace("#([`'\"])/(.*?)\\1#", "$1$2$1", $buffer);
 
                         file_put_contents("$path[1]$path[3].cache.$path[4]", $buffer);
                         chmod("$path[1]$path[3].cache.$path[4]", 0770);

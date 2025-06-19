@@ -1,37 +1,58 @@
 declare namespace myLib {
-    class Layer extends Element.HTML.Div { /////////////////////////////////////////////////////////////////////////////////// Layer ///
+    class LayersBox extends Element.HTML.Div { /////////////////////////////////////////////////////////////////////////// LayersBox ///
+        constructor(target?: HTMLDivElement, className?: string, id?: string);
         constructor(className?: string, id?: string);
 
-        static LANDSCAPE: Layer.Orientation;
-        static PORTRAIT: Layer.Orientation;
+        // Static
+        static default: LayersBox;
 
         // Properties
-        layer: HTMLDivElement;
-        below: Layer | null;
+        children: Layer[];
+        fixed: boolean;
 
-        // Events
-        onAppend(...arguments: any[]): void;
-        onDocumentHide(): void;
-        onDocumentShow(): void;
-        onOrientation(alpha: number | null, beta: number | null, gamma: number | null): void;
-        onOrientationChange(orientation: Layer.Orientation): void;
-        onRemove(...arguments: any[]): void;
+        // Overrides
+        appendChild<T extends Element>(child: T): T;
+        defineChild<T extends Element>(name: string, child: T): T;
+        removeChild(child: Element, ...args: any[]): number;
+        removeChildren(...args: any[]): this;
+        insertBefore<T extends Element>(child: T, ref_child: Element): T;
+        replaceChild<T extends Element>(child: T, ref_child: Element): T;
 
         // Methods
-        append(...arguments: any[]): this;
-        remove(...arguments: any[]): this;
-    } interface Layer extends Touch {
-        constructor: Layer;
-
-        // Listeners
-        onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-        onTap(target?: HTMLElement): boolean | void;
+        appendToBody(): this;
+    } interface LayersBox {
+        constructor: typeof LayersBox;
     }
 
-    namespace Layer {
-        enum Orientation {
-            LANDSCAPE,
-            PORTRAIT
+    namespace LayersBox {
+        class CSSStyle extends myLib.Element.HTML.CSSStyle { ////////////////////////////////////////////////////////// CSSStyle ///
+            constructor(target: Element);
+
+            // Properties
+            target: LayersBox;
+
+            // Accessors
+            get position(): string;
+            set position(value: string);
+
+            // Methods
+            removeProperty(property: string): this;
+        } interface CSSStyle {
+            constructor: typeof CSSStyle;
         }
+    }
+
+    class Layer extends Element.HTML.Div { /////////////////////////////////////////////////////////////////////////////////// Layer ///
+        constructor(className?: string, id?: string);
+        parent: LayersBox;
+
+        // Properties
+        layersBox: LayersBox | null;
+
+        // Methods
+        append(layersBox?: LayersBox, focus = false): this;
+        remove(...args: any[]): this;
+    } interface Layer extends Touch {
+        constructor: typeof Layer;
     }
 }

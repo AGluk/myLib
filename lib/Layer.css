@@ -1,44 +1,62 @@
-html {
-    width: 100%;
-    height: 100%;
-}
+body > .my-layers-box {
+    top: 0;
+    left: 0;
 
-body {
     width: 100%;
     height: 100%;
 
-    margin: 0;
-    padding: 0;
-    overflow: clip;
     position: fixed;
+    z-index: 2147483646;
 }
 
-.layer {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    position: absolute;
+.my-layers-box {
+    position: relative;
 }
 
-.layer > div {
+.my-layers-box,
+.my-layers-box * {
+    cursor: default;
+    pointer-events: none;
+    touch-action: none;
+
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.my-layers-box *:focus {
+    outline: none;
+}
+
+.my-layers-box a,
+.my-layers-box iframe,
+.my-layers-box input {
+    cursor: auto;
+    pointer-events: auto;
+}
+
+.my-layers-box input {
+    user-select: auto;
+    -moz-user-select: auto;
+    -webkit-user-select: auto;
+}
+
+.my-layers-box > *:not(:last-child) {
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
+}
+
+/******************************************************************************************************************************************/
+
+.my-layer {
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+
+    width: 100%;
+    height: 100%;
 
     overflow: hidden;
     pointer-events: auto;
     position: absolute;
-    transition: opacity 300ms;
-}
-
-.layer > div:focus {
-    outline: none;
-}
-
-.layer > .layer.below {
-    filter: blur(5px);
-    -webkit-filter: blur(5px);
+    transition: opacity 300ms linear;
 }

@@ -1,8 +1,8 @@
 declare namespace myLib {
     class Page extends Layer { //////////////////////////////////////////////////////////////////////////////////////////////// Page ///
-        constructor(id: string, className?: string);
-        constructor(className: string);
+        constructor(className?: string, id?: string);
 
+        // Static
         static onLoaded: () => void;
 
         // Children
@@ -13,41 +13,36 @@ declare namespace myLib {
 
         // Properties
         head: Page.Head;
+        type: 'linear' | 'tabbed';
 
-        elements: Map<HTMLElement>;
+        elements: Map<Window.Element>;
         forms: Map<HTMLFormElement>;
 
         section: {
-            body: HTMLDivElement
-            menu: HTMLDivElement
-        } | undefined;
+            body: myLib.Page.Body.Section
+            menu: myLib.Page.Menu.Sections.Item
+        }
 
         sections: Map<{
-            body: HTMLDivElement
-            menu: HTMLDivElement
+            body: myLib.Page.Body.Section
+            menu: myLib.Page.Menu.Sections.Item
         }>;
 
         content_AJAX: XMLHttpRequest;
         script_AJAX: XMLHttpRequest;
         style_AJAX: XMLHttpRequest;
 
-        // Accessors
-        get className(): string;
-        set className(className: string): void;
-
-        // Listeners
-        onOrientationChange(orientation: Layer.Orientation): void;
-        onResize(capture?: boolean): boolean | void;
-
-        // Methods
-        append(...arguments: any[]): this;
-        remove(...arguments: any[]): this;
+        // Overrides
+        append(layersBox?: LayersBox, focus = false): this;
+        remove(...args: any[]): this;
         scrollBy(dX: number, dY: number): this;
         scrollTo(left: number, top: number, duration?: number, callback?: () => void): this;
+
+        // Methods
         setSection(id: string, duration?: number);
         setSrc(src: string, section?: string): this;
     } interface Page {
-        constructor: Page;
+        constructor: typeof Page;
     }
 
     namespace Page {
@@ -55,23 +50,61 @@ declare namespace myLib {
             constructor();
             parent: Page;
         } interface Background {
-            constructor: Background;
+            constructor: typeof Background;
         }
 
         class Body extends Scroll { /////////////////////////////////////////////////////////////////////////////////////// Body ///
             constructor();
             parent: Page;
 
+            // Children
+            content: Body.Content;
+
             // Accessors
             get innerHTML(): string;
             set innerHTML(value: string);
 
             // Properties
-            elements: Map<HTMLElement>;
+            elements: Map<Window.Element>;
             forms: Map<HTMLFormElement>;
-            sections: Map<HTMLElement>;
+            sections: Map<myLib.Page.Body.Section>;
+            tracked: List<Body.Tracked>;
+
+            // Overrides
+            addExtendedClassNames(extension: string): this;
+            remExtendedClassNames(extension?: string): this;
         } interface Body {
-            constructor: Body;
+            constructor: typeof Body;
+        }
+
+        namespace Body {
+            abstract class Content extends Scroll.Content {
+                parent: Body;
+            }
+
+            class Section extends myLib.Element.HTML.Div { ///////////////////////////////////////////////////////// Section ///
+                constructor(target: Window.Element);
+                parent: Content;
+
+                // Methods
+                init(parent: Content): this;
+            } interface Section {
+                constructor: typeof Section;
+            }
+
+            class Tracked extends myLib { ////////////////////////////////////////////////////////////////////////// Tracked ///
+                constructor(target: Window.Element, parent: Page | Section);
+
+                // Properties
+                target: Window.Element;
+                classList_origin: string[];
+                classList_extensions: Element.ClassListExtensions;
+
+                // Methods
+                update(): this;
+            } interface Tracked {
+                constructor: typeof Tracked;
+            }
         }
 
         class Head extends myLib { //////////////////////////////////////////////////////////////////////////////////////// Head ///
@@ -85,14 +118,14 @@ declare namespace myLib {
             append(): this;
             remove(): this;
         } interface Head {
-            constructor: Head;
+            constructor: typeof Head;
         }
 
-        class Load extends Element.HTML.Image { /////////////////////////////////////////////////////////////////////////// Load ///
+        class Load extends Element.HTML.Div { ///////////////////////////////////////////////////////////////////////////// Load ///
             constructor();
             parent: Page;
         } interface Load {
-            constructor: Load;
+            constructor: typeof Load;
         }
 
         class Menu extends Element.HTML.Div { ///////////////////////////////////////////////////////////////////////////// Menu ///
@@ -101,22 +134,32 @@ declare namespace myLib {
 
             // Children
             sections: Menu.Sections;
-
-            // Listeners
-            onResize(capture?: boolean): boolean | void;
         } interface Menu extends Touch {
-            constructor: Menu;
-
-            // Listeners
-            onTap(target?: HTMLElement): boolean | void;
+            constructor: typeof Menu;
         }
 
         namespace Menu {
             class Sections extends Scroll { /////////////////////////////////////////////////////////////////////// Sections ///
                 constructor();
                 parent: Menu;
+
+                // Children
+                content: Sections.Content;
             } interface Sections {
-                constructor: Sections;
+                constructor: typeof Sections;
+            }
+
+            namespace Sections {
+                abstract class Content extends Scroll.Content {
+                    parent: Sections;
+                }
+
+                class Item extends myLib.Element.HTML.Div { /////////////////////////////////////////////////////// Item ///
+                    constructor();
+                    parent: Content;
+                } interface Item {
+                    constructor: typeof Item;
+                }
             }
         }
     }

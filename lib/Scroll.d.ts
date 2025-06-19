@@ -18,16 +18,7 @@ declare namespace myLib {
         vX: number;
         vY: number;
 
-        // Listeners
-        onResize(capture): boolean | void;
-
-        // Events
-        onScroll(scrollLeft?: number, scrollTop?: number, zoom?: number): void;
-
         // Accessors
-        get className(): string;
-        set className(value: string);
-
         get innerHTML(): string;
         set innerHTML(value: string);
 
@@ -43,31 +34,23 @@ declare namespace myLib {
         get zoom(): number;
         zoom_: Animation.Property;
 
-        // Methods
-        appendChild<T>(child: T): T;
-        defineChild<T>(name: string, child: T): T;
-        insertBefore(child: Element, ref_child: Element): boolean;
+        // Events
+        onScroll(scrollLeft?: number, scrollTop?: number, zoom?: number): void;
+
+        // Overrides
+        appendChild<T extends Element>(child: T): T;
+        defineChild<T extends Element>(name: string, child: T): T;
+        removeChild(child: Element, ...args: any[]): number;
+        removeChildren(...args: any[]): this;
+        insertBefore<T extends Element>(child: T, ref_child: Element): T;
+        replaceChild<T extends Element>(child: Element, ref_child: Element): T;
         iterateDOM(callback: (child: Window.Element) => boolean, element = this.content.target): void;
-        removeChild(child: Element): this;
-        removeChildren(): this;
-        replaceChild(child: Element, ref_child: Element): boolean;
-        resize(): this;
+
+        // Methods
         scrollBy(dX: number, dY: number): this;
         scrollTo(left: number, top: number, zoom?: number, duration?: number, callback?: () => void): this;
     } interface Scroll extends Animation, Touch {
-        constructor: Scroll;
-
-        // Listeners
-        onAnimationStart(name?: string): boolean | void;
-        onAnimationFrame(dt?: number, f?: number, name?: string): boolean | void;
-        onAnimationEnd(name?: string): void;
-        onAnimationBreak(name?: string): void;
-
-        // Listeners
-        onFocus(target?: EventTarget): void;
-        onTouchStart(target?: EventTarget): boolean | void;
-        onTouchMove(dX?: number, dY?: number, kR?: number): boolean | void;
-        onTouchEnd(): boolean | void;
+        constructor: typeof Scroll;
     }
 
     namespace Scroll {
@@ -102,7 +85,7 @@ declare namespace myLib {
             // Methods
             update(): this;
         } interface CSSStyle {
-            constructor: CSSStyle;
+            constructor: typeof CSSStyle;
         }
 
         class Content extends Element.HTML.Div { /////////////////////////////////////////////////////////////////////// Content ///
@@ -119,13 +102,10 @@ declare namespace myLib {
             get offsetHeight(): number;
             offsetHeight_: number;
 
-            // Listeners
-            onResize(capture?: boolean): boolean | void;
-
             // Methods
             translate(x: number, y: number): this;
         } interface Content {
-            constructor: Content;
+            constructor: typeof Content;
         }
 
         namespace Content {
@@ -160,7 +140,7 @@ declare namespace myLib {
                 // Methods
                 update(): this;
             } interface CSSStyle {
-                constructor: CSSStyle;
+                constructor: typeof CSSStyle;
             }
         }
 
@@ -179,7 +159,7 @@ declare namespace myLib {
             set(left: number, right: number): this;
             show(timeout?: number): this;
         } interface Horizontal {
-            constructor: Horizontal;
+            constructor: typeof Horizontal;
         }
 
         namespace Horizontal {
@@ -190,7 +170,7 @@ declare namespace myLib {
                 // Children
                 lever: Bar.Lever;
             } interface Bar {
-                constructor: Bar;
+                constructor: typeof Bar;
             }
 
             namespace Bar {
@@ -201,7 +181,7 @@ declare namespace myLib {
                     // Properties
                     style: Lever.CSSStyle;
                 } interface Lever {
-                    constructor: Lever;
+                    constructor: typeof Lever;
                 }
 
                 namespace Lever {
@@ -215,7 +195,7 @@ declare namespace myLib {
                         get right(): number;
                         set right(value: number);
                     } interface CSSStyle {
-                        constructor: CSSStyle;
+                        constructor: typeof CSSStyle;
                     }
                 }
             }
@@ -236,7 +216,7 @@ declare namespace myLib {
             set(top: number, bottom: number): this;
             show(timeout?: number): this;
         } interface Vertical {
-            constructor: Vertical;
+            constructor: typeof Vertical;
         }
 
         namespace Vertical {
@@ -247,7 +227,7 @@ declare namespace myLib {
                 // Children
                 lever: Bar.Lever;
             } interface Bar {
-                constructor: Bar;
+                constructor: typeof Bar;
             }
 
             namespace Bar {
@@ -258,7 +238,7 @@ declare namespace myLib {
                     // Properties
                     style: Lever.CSSStyle;
                 } interface Lever {
-                    constructor: Lever;
+                    constructor: typeof Lever;
                 }
 
                 namespace Lever {
@@ -272,7 +252,7 @@ declare namespace myLib {
                         get bottom(): number;
                         set bottom(value: number | string);
                     } interface CSSStyle {
-                        constructor: CSSStyle;
+                        constructor: typeof CSSStyle;
                     }
                 }
             }

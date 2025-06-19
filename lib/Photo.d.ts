@@ -19,11 +19,9 @@ declare namespace myLib {
             thumbnail: string
         }[];
 
-        // Listeners
-        onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-        onTap(target?: HTMLElement): boolean | void;
-
         // Methods
+        clear(): this;
+
         setImages(images: {
             path: string
             date: number
@@ -34,7 +32,7 @@ declare namespace myLib {
 
         setSrc(src: string): this;
     } interface Photo {
-        constructor: Photo;
+        constructor: typeof Photo;
     }
 
     namespace Photo {
@@ -43,27 +41,27 @@ declare namespace myLib {
             parent: Photo;
 
             // Children
+            content: Body.Content;
             frame: Body.Frame[];
 
             // Properties
             index: number;
-
-            // Listeners
-            onResize(capture?: boolean): boolean | void;
-            onScroll(scrollLeft?: number, scrollTop?: number, zoom?: number): void;
-            onTap(target?: HTMLElement): boolean | void;
-            onTouchEnd(): boolean | void;
+            timeout: number;
 
             // Methods
             clear(): this;
         } interface Body {
-            constructor: Body;
+            constructor: typeof Body;
         }
 
         namespace Body {
+            abstract class Content extends Scroll.Content {
+                parent: Body;
+            }
+
             class Frame extends Scroll { ///////////////////////////////////////////////////////////////////////////// Frame ///
                 constructor();
-                parent: Body;
+                parent: Content;
 
                 // Children
                 gizmo: Frame.Gizmo;
@@ -78,27 +76,20 @@ declare namespace myLib {
                     thumbnail: string
                 };
 
-                // Listeners
-                onResize(capture?: boolean): boolean | void;
-                onTap(target?: HTMLElement): boolean | void;
-
                 // Methods
                 clear(): this;
                 setIndex(index: number): this;
             } interface Frame {
-                constructor: Frame;
+                constructor: typeof Frame;
             }
 
             namespace Frame {
                 class Gizmo extends Element.HTML.Div { /////////////////////////////////////////////////////////// Gizmo ///
                     constructor();
-                    parent: Frame;
+                    parent: Scroll.Content;
 
                     // Children
                     image: Element.HTML.Image;
-
-                    // Listeners
-                    onResize(capture?: boolean): boolean | void;
 
                     // Methods
                     clear(): this;
@@ -108,7 +99,7 @@ declare namespace myLib {
                         thumbnail: string
                     }): this;
                 } interface Gizmo {
-                    constructor: Gizmo;
+                    constructor: typeof Gizmo;
                 }
 
                 namespace Gizmo {
@@ -116,7 +107,7 @@ declare namespace myLib {
                         constructor();
                         parent: Gizmo;
                     } interface Image {
-                        constructor: Image;
+                        constructor: typeof Image;
                     }
                 }
             }
@@ -125,18 +116,15 @@ declare namespace myLib {
         class Close extends Element.HTML.Image, Touch { ////////////////////////////////////////////////////////////////// Close ///
             constructor();
             parent: Photo;
-
-            // Listeners
-            onTap(target: HTMLElement): boolean;
         } interface Close {
-            constructor: Close;
+            constructor: typeof Close;
         }
 
-        class Load extends Element.HTML.Image { /////////////////////////////////////////////////////////////////////////// Load ///
+        class Load extends Element.HTML.Div { ///////////////////////////////////////////////////////////////////////////// Load ///
             constructor();
             parent: Photo;
         } interface Load {
-            constructor: Load;
+            constructor: typeof Load;
         }
     }
 }

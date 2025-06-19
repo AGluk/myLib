@@ -1,9 +1,8 @@
 declare namespace myLib {
-    class Dialog extends Layer { //////////////////////////////////////////////////////////////////////////////////////////// Dialog ///
-        constructor(id: string, className?: string);
-        constructor(className: string);
+    const dialogs: Map<Dialog | null>;
 
-        static onLoaded: () => void;
+    class Dialog extends Layer { //////////////////////////////////////////////////////////////////////////////////////////// Dialog ///
+        constructor(className?: string, id?: string);
 
         // Children
         load: Dialog.Load;
@@ -11,38 +10,30 @@ declare namespace myLib {
 
         // Properties
         head: Dialog.Head;
-        elements: Map<HTMLElement>;
+        elements: Map<Window.Element>;
         forms: Map<HTMLFormElement>;
+        modal_: boolean;
 
         content_AJAX: XMLHttpRequest;
         script_AJAX: XMLHttpRequest;
         style_AJAX: XMLHttpRequest;
 
-        // Accessors
-        get className(): string;
-        set className(className: string): void;
-
-        get modal(): boolean;
-        set modal(value: boolean);
-        modal_: boolean;
-
         // Events
         onLoaded(): void;
 
-        // Listeners
-        onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-        onTap(target?: HTMLElement): boolean | void;
-
-        // Methods
-        append(modal?: boolean, ...arguments: any[]): this;
-        clear(): this;
-        remove(...arguments: any[]): this;
+        // Overrides
+        append(layersBox?: LayersBox, focus = false): this;
+        remove(...args: any[]): this;
         scrollBy(dX: number, dY: number): this;
         scrollTo(left: number, top: number, duration?: number, callback?: () => void): this;
+
+        // Methods
+        clear(): this;
+        modal(modal: boolean): this;
         setContent(body: string, head?: string): this;
         setSrc(src: string): this;
     } interface Dialog {
-        constructor: Dialog;
+        constructor: typeof Dialog;
     }
 
     namespace Dialog {
@@ -60,22 +51,16 @@ declare namespace myLib {
             left: number;
             width: number;
             height: number;
-
-            // Listeners
-            onResize(capture?: boolean): boolean | void;
         } interface Frame {
-            constructor: Frame;
+            constructor: typeof Frame;
         }
 
         namespace Frame {
             class Head extends Element.HTML.Div, Touch { ////////////////////////////////////////////////////////////// Head ///
                 constructor();
                 parent: Frame;
-
-                // Listeners
-                onTap(target?: HTMLElement): boolean | void;
             } interface Head {
-                constructor: Head;
+                constructor: typeof Head;
             }
 
             class Body extends Scroll { /////////////////////////////////////////////////////////////////////////////// Body ///
@@ -87,17 +72,39 @@ declare namespace myLib {
                 set innerHTML(value: string);
 
                 // Properties
-                elements: Map<HTMLElement>;
+                elements: Map<Window.Element>;
                 forms: Map<HTMLFormElement>;
+                tracked: List<Body.Traced>;
+
+                // Overrides
+                addExtendedClassNames(extension: string): this;
+                remExtendedClassNames(extension?: string): this;
             } interface Body {
-                constructor: Body;
+                constructor: typeof Body;
+            }
+
+            namespace Body {
+                class Tracked extends myLib { ////////////////////////////////////////////////////////////////// Tracked ///
+                    constructor(target: Window.Element, parent: Dialog);
+
+                    target: Window.Element;
+
+                    // Properties
+                    classList_origin: string[];
+                    classList_extensions: Element.ClassListExtensions;
+
+                    // Methods
+                    update(): this;
+                } interface Tracked {
+                    constructor: typeof Tracked;
+                }
             }
 
             class Close extends Element.HTML.Div, Touch { //////////////////////////////////////////////////////////// Close ///
                 constructor();
                 parent: Frame;
             } interface Close {
-                constructor: Close;
+                constructor: typeof Close;
             }
         }
 
@@ -112,16 +119,14 @@ declare namespace myLib {
             append(): this;
             remove(): this;
         } interface Head {
-            constructor: Head;
+            constructor: typeof Head;
         }
 
-        class Load extends Element.HTML.Image { /////////////////////////////////////////////////////////////////////////// Load ///
+        class Load extends Element.HTML.Div { ///////////////////////////////////////////////////////////////////////////// Load ///
             constructor();
             parent: Dialog;
         } interface Load {
-            constructor: Load;
+            constructor: typeof Load;
         }
     }
-
-    let dialogs: Map<Dialog | null>;
 }

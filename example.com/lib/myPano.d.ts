@@ -1,6 +1,9 @@
 declare namespace myLib {
-    class myPano extends myLib.PanoGL { ///////////////////////////////////////////////////////////////////////////////////// myPano ///
+    class myPano extends myLib.Layer { ////////////////////////////////////////////////////////////////////////////////////// myPano ///
         constructor(src: string);
+
+        // Children
+        pano: PanoGL;
 
         // Properties
         view: myPano.View;
@@ -11,16 +14,7 @@ declare namespace myLib {
         // Methods
         update(): this;
     } interface myPano extends Animation, Touch {
-        constructor: myPano;
-
-        // Listeners
-        onAnimationStart(name?: string): boolean | void;
-        onAnimationFrame(dt?: number, f?: number, name?: string): boolean | void;
-        onAnimationEnd(name?: string): void;
-        onAnimationBreak(name?: string): void;
-
-        // Listeners
-        onTouchMove(dX?: number, dY?: number, kR?: number): boolean | void;
+        constructor: typeof myPano;
     }
 
     namespace myPano {
@@ -40,7 +34,7 @@ declare namespace myLib {
             set FOV(value: number);
             FOV_: Animation.Property;
         } interface View {
-            constructor: View;
+            constructor: typeof View;
         }
     }
 }

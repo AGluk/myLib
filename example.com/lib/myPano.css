@@ -1,3 +1,16 @@
-.pano {
+.my-pano {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.my-pano > .my-pano-gl {
+    top: 10%;
+    left: 10%;
+
+    width: 80%;
+    height: 80%;
+
+    border-radius: 10px;
+    box-shadow: 0 0 30px black;
+    position: absolute;
     pointer-events: auto;
 }

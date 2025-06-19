@@ -1,25 +1,103 @@
+// #include </lib/Layer.js>
 // #include </lib/PanoGL.js>
 
+// All custom classes must starts with 'my...'
 myLib.defineClass( ////////////////////////////////////////////////////////////////////////////////////////////////////////////// myPano ///
     /** @this {myLib.myPano} */
     function myPano(src) { // Constructor
-        myLib.PanoGL.call(this); // Call parent constructor
-        myLib.Animation.call(this); // Call mixin constructor
-        myLib.Touch.call(this); // Call mixin constructor
+        this.extends(myLib.Layer) // Call parent constructor
+            .mixin(myLib.Animation); // Call mixin constructor
+
+        // Children
+
+        this.defineChild('pano', new myLib.PanoGL()); // Define 'pano' child
+
+        // Properties
+
+        this.defineProperty('view', new myLib.myPano.View(0, 0, 1.3)); // Difine 'view' property
+
+        this.defineProperty('vX', 0); // Difine 'vX' property
+        this.defineProperty('vY', 0); // Difine 'vY' property
 
         // Initialization
 
-        this.defineProperty('view', new myLib.myPano.View(0, 0, 1.3));
-        this.setPerspective(1 / Math.tan(this.view.FOV / 2)); // Calling method from the parent class
+        this.pano.setPerspective(1 / Math.tan(this.view.FOV / 2)); // Calling method from 'PanoGL' class
+        this.pano.setSrc(src, 2048); // Calling method 'PanoGL' class
+    },
 
-        this.defineProperty('vX', 0);
-        this.defineProperty('vY', 0);
-
-        this.setSrc(src, 2048); // Calling method from the parent class
+    // Static
+    {
+        className: 'my-pano' // Origin className
     },
 
     // Extends
-    myLib.PanoGL, // Extends parent class 'PanoGL'
+    myLib.Layer, // Extends parent class 'Layer'
+    {
+        /** @this {myLib.myPano.prototype} */
+        onKeyDown(code) {
+            switch (code) {
+                case 'Escape':
+                    this.remove(); // Remove our layer from 'LayersBox'
+                    return true;   // Stop propagation and prevent default behaviour
+                                   // Return 'false' for stopping propagation but not preventing default behaviour
+                                   // If nothing returned - the next 'onKeyDown' handler will be called in bubble order
+            }
+        },
+
+        /** @this {myLib.myPano.prototype} */
+        onTap(target) {
+            if (target === this.target) {
+                this.remove(); // Remove our layer from 'LayersBox'
+            } else if (this.view.FOV !== 1.3) {
+                this.animate(
+                    [this.view.FOV_, 1.3] // Prepare animation for 'FOV'
+                ) && this.animationStart('view', 300, myLib.Animation.soft); // Start animation for 'view'
+            }
+
+            return true; // Stop propagation
+        },
+
+        /** @this {myLib.myPano.prototype} */
+        onTouchStart() {
+            this.animationBreak(); // Break all animation
+            return true; // Stop propagation
+        },
+
+        /** @this {myLib.myPano.prototype} */
+        onTouchMove(dX, dY, kR) {
+            this.view.FOV /= kR;
+            if (this.view.FOV < Math.PI / 6) this.view.FOV = Math.PI / 6;
+            else if (this.view.FOV > 2 * Math.PI / 3) this.view.FOV = 2 * Math.PI / 3;
+
+            let perspective;
+            if (this.pano.offsetWidth < this.pano.offsetHeight) {
+                perspective = this.pano.offsetWidth / 2 / Math.tan(this.view.FOV / 2);
+            } else {
+                perspective = this.pano.offsetHeight / 2 / Math.tan(this.view.FOV / 2);
+            }
+
+            this.view.ph = this.view.ph - dX / perspective;
+            if (this.view.ph < -Math.PI) this.view.ph = this.view.ph + 2 * Math.PI;
+            else if (this.view.ph > Math.PI) this.view.ph = this.view.ph - 2 * Math.PI;
+
+            this.view.th = this.view.th + dY / perspective;
+            if (this.view.th < -Math.PI / 2) this.view.th = -Math.PI / 2 + 0.001;
+            else if (this.view.th > Math.PI / 2) this.view.th = Math.PI / 2 - 0.001;
+
+            this.update();
+
+            return true; // Stop propagation
+        },
+
+        /** @this {myLib.Scene.prototype} */
+        onTouchEnd() {
+            this.vX = this.touch.vX;
+            this.vY = this.touch.vY;
+
+            this.animationStart('inertial');
+            return true;
+        }
+    },
 
     // Mixin
     myLib.Animation, // Mixin 'Animation' class
@@ -109,73 +187,18 @@ myLib.defineClass( /////////////////////////////////////////////////////////////
         }
     },
 
-    // Mixin
-    myLib.Touch, // Mixin 'Touch' class
-    {
-        /** @this {myLib.myPano.prototype} */
-        onTap() {
-            if (this.view.FOV !== 1.3) {
-                this.view.FOV_.animate(1.3);
-                this.animationStart('view', 300, myLib.Animation.soft);
-            }
-
-            return true;
-        },
-
-        /** @this {myLib.myPano.prototype} */
-        onTouchStart() {
-            this.animationBreak();
-            return true;
-        },
-
-        /** @this {myLib.myPano.prototype} */
-        onTouchMove(dX, dY, kR) {
-            this.view.FOV /= kR;
-            if (this.view.FOV < Math.PI / 6) this.view.FOV = Math.PI / 6;
-            else if (this.view.FOV > 2 * Math.PI / 3) this.view.FOV = 2 * Math.PI / 3;
-
-            let perspective;
-            if (this.offsetWidth < this.offsetHeight) {
-                perspective = this.offsetWidth / 2 / Math.tan(this.view.FOV / 2);
-            } else {
-                perspective = this.offsetHeight / 2 / Math.tan(this.view.FOV / 2);
-            }
-
-            this.view.ph = this.view.ph - dX / perspective;
-            if (this.view.ph < -Math.PI) this.view.ph = this.view.ph + 2 * Math.PI;
-            else if (this.view.ph > Math.PI) this.view.ph = this.view.ph - 2 * Math.PI;
-
-            this.view.th = this.view.th + dY / perspective;
-            if (this.view.th < -Math.PI / 2) this.view.th = -Math.PI / 2 + 0.001;
-            else if (this.view.th > Math.PI / 2) this.view.th = Math.PI / 2 - 0.001;
-
-            this.update();
-
-            return true;
-        },
-
-        /** @this {myLib.Scene.prototype} */
-        onTouchEnd() {
-            this.vX = this.touch.vX;
-            this.vY = this.touch.vY;
-
-            this.animationStart('inertial');
-            return true;
-        }
-    },
-
     // Methods
     {
         /** @this {myLib.myPano.prototype} */
         update() {
-            this.setView(myLib.Matrix3D.MxM(
+            this.pano.setView(myLib.Matrix3D.MxM(
                 myLib.Matrix3D.rotateY(this.view.ph),
                 myLib.Matrix3D.rotateX(-this.view.th)
             ));
 
-            this.setPerspective(1 / Math.tan(this.view.FOV / 2));
+            this.pano.setPerspective(1 / Math.tan(this.view.FOV / 2));
+            this.pano.update();
 
-            myLib.PanoGL.proto('update').call(this); // Calling parent prototype method because we've overloaded it
             return this;
         }
     }
@@ -184,13 +207,13 @@ myLib.defineClass( /////////////////////////////////////////////////////////////
 myLib.myPano.defineClass( ///////////////////////////////////////////////////////////////////////////////////////////////////////// View ///
     /** @this {myLib.myPano.View} */
     function View(ph, th, FOV) {
-        myLib.call(this);
+        this.extends(myLib); // Call parent constructor
 
         // Initialization
 
-        this.defineProperty('ph_', new myLib.Animation.Property(ph));
-        this.defineProperty('th_', new myLib.Animation.Property(th));
-        this.defineProperty('FOV_', new myLib.Animation.Property(FOV));
+        this.defineProperty('ph_', new myLib.Animation.Property(ph)); // Define 'ph_' property, which can be animated
+        this.defineProperty('th_', new myLib.Animation.Property(th)); // Define 'th_' property, which can be animated
+        this.defineProperty('FOV_', new myLib.Animation.Property(FOV)); // Define 'FOV_' property, which can be animated
     },
 
     // Extends

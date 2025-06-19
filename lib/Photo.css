@@ -1,83 +1,89 @@
-.photo {
+.my-photo {
     background: rgba(0, 0, 0, 0.3);
-    pointer-events: auto;
 }
 
 /******************************************************************************************************************************************/
 
-.photo > .body {
+.my-photo-body {
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+
+    width: 100%;
+    height: 100%;
 
     position: absolute;
     transition: opacity 300ms linear;
     z-index: 1;
 }
 
-.photo > .body > .content > .frame {
+.my-photo-body-content-frame {
     top: 0;
     left: 0;
+
     width: 0;
     height: 0;
 
     position: absolute;
 }
 
-.photo > .body > .content > .frame > .content > .gizmo {
+.my-photo-body-content-frame-content-gizmo {
     background-color: rgba(0, 0, 0, 0.5);
     background-size: 100% 100%;
     box-shadow: 0 0 20px 0 black;
     cursor: pointer;
     overflow: hidden;
     pointer-events: auto;
+    position: relative;
 }
 
-.photo > .body > .content > .frame.large > .content > .gizmo {
+.my-photo-body-content-frame-content-gizmo-large {
     border-radius: 10px;
 }
 
-.photo > .body > .content > .frame.small > .content > .gizmo {
+.my-photo-body-content-frame-content-gizmo-small {
     border-radius: unset;
 }
 
-.photo > .body > .content > .frame > .content > .gizmo > .image {
+.my-photo-body-content-frame-content-gizmo-image {
+    top: 0;
+    left: 0;
+
     width: 100%;
     height: 100%;
 
     position: absolute;
 }
 
-.photo > .body > .content > .frame > .hscroll {
+.my-photo-body-content-frame-hscroll {
     display: none !important;
 }
 
-.photo > .body > .content > .frame > .vscroll {
+.my-photo-body-content-frame-vscroll {
     display: none !important;
 }
 
-.photo > .body > .hscroll {
+.my-photo-body-hscroll {
     pointer-events: auto;
 }
 
-.photo > .body > .hscroll > .bar > .lever {
+.my-photo-body-hscroll-bar-lever {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.photo > .body > .vscroll {
+.my-photo-body-vscroll {
     pointer-events: auto;
 }
 
-.photo > .body > .vscroll > .bar > .lever {
+.my-photo-body-vscroll-bar-lever {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
 /******************************************************************************************************************************************/
 
-.photo > .close {
+.my-photo-close {
     top: 10px;
     right: 10px;
+
     width: 32px;
     height: 32px;
 
@@ -90,24 +96,24 @@
     z-index: 2;
 }
 
-.photo > .close:hover {
+.my-photo-close:hover {
     opacity: 1 !important;
 }
 
 /******************************************************************************************************************************************/
 
-.photo > .load {
+.my-photo-load {
     top: 50%;
     left: 50%;
-    width: 32px;
-    height: 32px;
 
-    background: white;
-    border-radius: 24px;
+    width: 48px;
+    height: 48px;
+
+    background: url("./images/load_white.svg");
+    background-size: 100% 100%;
     margin-top: -24px;
     margin-left: -24px;
     opacity: 0.5;
-    padding: 8px;
     position: absolute;
     transition: opacity 300ms linear;
     z-index: 0;

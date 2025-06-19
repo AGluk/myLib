@@ -1,14 +1,5 @@
-.page {
-    pointer-events: auto;
-}
-
-/******************************************************************************************************************************************/
-
-.page > .background {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.my-page-background {
+    inset: 0;
 
     background-position: center;
     background-size: cover;
@@ -16,26 +7,24 @@
     z-index: 0;
 }
 
-.page > .background > .pano {
-    width: 100%;
-    height: 100%;
+.my-page-background-pano-gl {
     position: absolute;
 }
 
 /******************************************************************************************************************************************/
 
-.page > .load {
+.my-page-load {
     top: 50%;
     left: 50%;
-    width: 32px;
-    height: 32px;
 
-    background: white;
-    border-radius: 24px;
+    width: 48px;
+    height: 48px;
+
+    background: url("./images/load_white.svg");
+    background-size: 100% 100%;
     margin-top: -24px;
     margin-left: -24px;
     opacity: 0.5;
-    padding: 8px;
     position: absolute;
     transition: opacity 300ms linear;
     z-index: 1;
@@ -43,44 +32,49 @@
 
 /******************************************************************************************************************************************/
 
-.page > .body {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.my-page-body {
+    inset: 0;
 
     position: absolute;
     transition: opacity 300ms linear;
     z-index: 2;
 }
 
-.page > .body > .content {
+.my-page-body-content {
     text-align: justify;
 }
 
-.page.tabbed > .body > .content > hr {
-    display: none;
-}
-
-.page > .body > .content > .section {
-    transition: opacity 300ms linear;
-}
-
-.page.tabbed > .body > .content > .section > h1:first-child {
-    display: none;
-}
-
-.page > .body > .hscroll {
+.my-page-body-hscroll {
     pointer-events: auto;
 }
 
-.page > .body > .vscroll {
+.my-page-body-vscroll {
     pointer-events: auto;
 }
 
 /******************************************************************************************************************************************/
 
-.page > .menu {
+.my-page-section {
+    transition: opacity 300ms linear;
+}
+
+.my-page-section-linear:not(:first-child)::before {
+    content: "";
+    display: block;
+    height: 1px;
+}
+
+.my-page-section-linear:last-child {
+    margin-bottom: 40px;
+}
+
+.my-page-section-tabbed > h1 {
+    display: none;
+}
+
+/******************************************************************************************************************************************/
+
+.my-page-menu {
     top: 0;
 
     position: absolute;
@@ -88,36 +82,36 @@
     z-index: 3;
 }
 
-.page.linear > .menu {
+.my-page-menu-linear {
     width: 100%;
 }
 
-.page.tabbed > .menu {
+.my-page-menu-tabbed {
     max-width: 90%;
 }
 
-.page > .menu > .sections > .content {
+.my-page-menu-sections-content {
     text-align: center;
     white-space: nowrap;
 }
 
-.page > .menu > .sections > .content > .item {
+.my-page-menu-sections-content-item {
     cursor: pointer;
     display: inline-block;
     pointer-events: auto;
     vertical-align: middle;
 }
 
-.page > .menu > .sections > .content > .item.current {
-    cursor: default;
-    pointer-events: none;
+.my-page-menu-sections-content-item-current {
+    cursor: default !important;
+    pointer-events: none !important;
     text-decoration: underline;
 }
 
-.page > .menu > .sections > .hscroll {
+.my-page-menu-sections-hscroll {
     display: none;
 }
 
-.page > .menu > .sections > .vscroll {
+.my-page-menu-sections-vscroll {
     display: none;
 }

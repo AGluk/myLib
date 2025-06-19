@@ -1,22 +1,37 @@
 {
     "editor.minimap.enabled": false,
-    "editor.rulers": [140],
-
+    "editor.rulers": [
+        140
+    ],
     "javascript.suggestionActions.enabled": false,
-
     "files.exclude": {
-        "**/*.cache.*": true
+        "**/*.cache.*": true,
+        "**/*.embed.*": true
     },
-
     "macros": {
         "asterix4": [
-            {"command": "type", "args": {"text": "****"}}
+            {
+                "command": "type",
+                "args": {
+                    "text": "****"
+                }
+            }
         ],
         "br": [
-            {"command": "type", "args": {"text": "<br>"}}
+            {
+                "command": "type",
+                "args": {
+                    "text": "<br>"
+                }
+            }
         ],
         "dash4": [
-            {"command": "type", "args": {"text": "----"}}
+            {
+                "command": "type",
+                "args": {
+                    "text": "----"
+                }
+            }
         ],
         "deleteLeft4": [
             "deleteLeft",
@@ -25,7 +40,13 @@
             "deleteLeft"
         ],
         "slash4": [
-            {"command": "type", "args": {"text": "////"}}
+            {
+                "command": "type",
+                "args": {
+                    "text": "////"
+                }
+            }
         ],
-    }
+    },
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -1,7 +1,7 @@
-#FORM form > div {
+.my-dialog-form-content > form > div {
     padding-bottom: 10px;
 }
 
-#FORM form > div:last-of-type {
+.my-dialog-form-content > form > div:last-of-type {
     padding-bottom: 0;
 }

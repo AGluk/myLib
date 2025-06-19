@@ -1,23 +1,12 @@
-.page #EXAMPLES {
+#EXAMPLES {
     font-weight: bold;
     text-align: center;
 }
 
-.page #EXAMPLES > form > div {
+#EXAMPLES > form > div {
     padding: 10px 20px;
 }
 
-.page #ABOUT {
+#ABOUT {
     font-style: italic;
-}
-
-/******************************************************************************************************************************************/
-
-.pano > .pano {
-    width: 90%;
-    height: 90%;
-
-    border-radius: 10px;
-    box-shadow: 0 0 30px black;
-    position: absolute;
 }

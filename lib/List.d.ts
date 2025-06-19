@@ -12,19 +12,20 @@ declare namespace myLib {
         [Symbol.iterator](): Generator<T>;
 
         // Methods
-        add(target: T, index?: number): this;
+        add(target: T, index?: number): T;
         break(): this;
         clear(): this;
+        forEach(callback: (value: T) => void): this;
         insertAfter(target: T, ref_target: T): boolean;
         insertBefore(target: T, ref_target: T): boolean;
         loop(): this;
         pop(target?: T): T | null;
-        push(target: T, index?: number): this;
+        push(target: T, index?: number): T;
         remove(target?: T): T | null;
         removeNode(node?: List.Node<T>): T | null;
         replace(target: T, ref_target: T): boolean;
     } interface List<T> {
-        constructor: List<T>;
+        constructor: typeof List<T>;
     }
 
     namespace List {
@@ -38,7 +39,7 @@ declare namespace myLib {
             prev: Node<T> | null;
             next: Node<T> | null;
         } interface Node<T> {
-            constructor: Node<T>;
+            constructor: typeof Node<T>;
         }
     }
 }

@@ -1,13 +1,17 @@
 {
-    "compilerOptions": {
-        "checkJs": true,
-        "module": "CommonJS",
-        "target": "ES2019"
-      },
-
-      "exclude": [
-        "**/*.cache.*",
-        "/lib/myLib.js",
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "module": "CommonJS",
+    "noPropertyAccessFromIndexSignature": true,
+    "target": "ES2019"
+  },
+  "exclude": [
+    "**/*.cache.*",
+    "**/*.embed.*",
+    "lib/myLib.js",
+    "myLibInit.js",
+    "myLibInit.loc.js",
+    "node_modules"
+  ]
 }

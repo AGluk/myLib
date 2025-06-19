@@ -2,7 +2,7 @@ declare namespace myLib {
     abstract class Animation extends myLib { ///////////////////////////////////////////////////////////////////////////// Animation ///
         constructor();
 
-        // Properties
+        // Static
         static soft(f: number): number;
         static softIn(f: number): number;
         static softOut(f: number): number;
@@ -15,44 +15,40 @@ declare namespace myLib {
         onAnimationBreak(name?: string): void; // call 'onAnimationEnd' by default
 
         // Methods
+        animate(...pairs: ([Animation.Property, number] | [Animation.Array, number[]])[]): boolean;
         animationBreak(...name: string[]): this;
         animationStart(name?: string, duration?: number, curve?: (f: number) => number): this;
+        animationStart(duration?: number, curve?: (f: number) => number): this;
         requestAnimationFrame(): this;
     } interface Animation {
-        constructor: Animation;
+        constructor: typeof Animation;
     }
 
     namespace Animation {
-        class Array extends myLib { ////////////////////////////////////////////////////////////////////////////////////// Array ///
-            constructor(value: number[]);
+        class Array<N extends number> extends myLib { //////////////////////////////////////////////////////////////////// Array ///
+            constructor(value: [number, ...number[]] & { length: N });
 
             // Properties
-            animated: boolean;
-
-            value: number[];
-            value_0: number[];
-            value_1: number[];
+            value: number[] & { length: N };
+            value_0: number[] & { length: N };
+            value_1: number[] & { length: N };
 
             // Methods
-            animate(value: number[]): this;
-            set(value: number[]): this;
+            animate(value: number[] & { length: N }): this;
+            set(value: number[] & { length: N }): this;
 
             onAnimationStart(): void;
-            onAnimationFrame(f: number): number[];
-            onAnimationFrame_0(f: number): number[];
-            onAnimationFrame_1(f: number): number[];
+            onAnimationFrame(f: number): number[] & { length: N };
             onAnimationEnd(): void;
             onAnimationBreak(): void;
         } interface Array {
-            constructor: Array;
+            constructor: typeof Array;
         }
 
         class Property extends myLib { //////////////////////////////////////////////////////////////////////////////// Property ///
             constructor(value: number)
 
             // Properties
-            animated: boolean;
-
             value: number;
             value_0: number;
             value_1: number;
@@ -63,12 +59,10 @@ declare namespace myLib {
 
             onAnimationStart(): void;
             onAnimationFrame(f: number): number;
-            onAnimationFrame_0(f: number): number;
-            onAnimationFrame_1(f: number): number;
             onAnimationEnd(): void;
             onAnimationBreak(): void;
         } interface Property {
-            constructor: Property;
+            constructor: typeof Property;
         }
     }
 }

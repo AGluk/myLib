@@ -15,16 +15,6 @@ declare namespace myLib {
         uniform: Record<string, WebGLUniformLocation | null>;
         stride: GLsizei;
 
-        // Accessors
-        get className(): string;
-        set className(value: string);
-
-        get width(): number;
-        set width(value: number);
-
-        get height(): number;
-        set height(value: number);
-
         // Methods
         bindTexture(...textures: WebGL.Texture[]): this;
         bindTextures(textures: WebGL.Texture[]): this;
@@ -56,11 +46,11 @@ declare namespace myLib {
         uniform4i(name: string, x: GLint, y: GLint, z: GLint, w: GLint): this;
         uniform4iv(name: string, vector: Int32List): this;
 
-        uniformMatrix2fv(name: string, matrix: number[], transpose?: boolean): this;
-        uniformMatrix3fv(name: string, matrix: number[], transpose?: boolean): this;
-        uniformMatrix4fv(name: string, matrix: number[], transpose?: boolean): this;
+        uniformMatrix2fv(name: string, matrix: number[], transpose = false): this;
+        uniformMatrix3fv(name: string, matrix: number[], transpose = false): this;
+        uniformMatrix4fv(name: string, matrix: number[], transpose = false): this;
     } interface WebGL {
-        constructor: WebGL;
+        constructor: typeof WebGL;
     }
 
     namespace WebGL {
@@ -71,7 +61,7 @@ declare namespace myLib {
             target: WebGLTexture;
             index: GLenum;
         } interface Texture {
-            constructor: Texture;
+            constructor: typeof Texture;
         }
     }
 }

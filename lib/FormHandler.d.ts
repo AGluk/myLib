@@ -1,7 +1,6 @@
 declare namespace myLib {
-    class Form extends Element.HTML.Form { //////////////////////////////////////////////////////////////////////////////////// Form ///
-        constructor(target?: HTMLFormElement, className?: string, id?: string);
-        constructor(className?: string, id?: string);
+    class FormHandler extends Element.HTML.Form { ////////////////////////////////////////////////////////////////////////// FormHandler ///
+        constructor(target: HTMLFormElement, className?: string, id?: string);
 
         // Properties
         elements: Map<HTMLElement>;
@@ -13,29 +12,16 @@ declare namespace myLib {
 
         // Methods
         focus(): this;
-    } interface Form extends Touch {
-        constructor: Form;
-
-        // Listeners
-        onFocus(target?: EventTarget): void;
-        onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
+    } interface FormHandler extends Touch {
+        constructor: typeof Form;
     }
 
-    namespace Form {
+    namespace FormHandler {
         class Button extends Element.HTML.Input { /////////////////////////////////////////////////////////////////////// Button ///
             constructor(target?: HTMLInputElement, className?: string, id?: string);
             constructor(className?: string, id?: string);
         } interface Button extends Touch {
             constructor: Button
-
-            // Listeners
-            onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-            onTap(target?: HTMLElement): boolean | void;
-
-            // Listeners
-            onAnimationStart(name?: string): boolean | void;
-            onAnimationFrame(dt?: number, f?: number, name?: string): boolean | void;
-            onAnimationEnd(name?: string): void;
             onAnimationBreak(name?: string): void;
         }
 
@@ -57,11 +43,7 @@ declare namespace myLib {
             set(checked: boolean): this;
             uncheck(): this;
         } interface Checkbox extends Touch {
-            constructor: Checkbox;
-
-            // Listeners
-            onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-            onTap(target?: HTMLElement): boolean | void;
+            constructor: typeof Checkbox;
         }
 
         class ListBox extends Element.HTML.Input { ///////////////////////////////////////////////////////////////////// ListBox ///
@@ -81,11 +63,7 @@ declare namespace myLib {
             // Methods
             set(data: string[]): this;
         } interface ListBox extends Touch {
-            constructor: ListBox;
-
-            // Listeners
-            onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-            onTap(target?: HTMLElement): boolean | void;
+            constructor: typeof ListBox;
         }
 
         namespace ListBox {
@@ -95,15 +73,10 @@ declare namespace myLib {
                 // Properties
                 table: Table;
 
-                // Listeners
-                onResize(capture?: boolean): boolean | void;
-                onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-                onTap(target?: HTMLElement): boolean | void;
-
                 // Methods
                 setFilter(filter: string): this;
             } interface List {
-                constructor: List;
+                constructor: typeof List;
             }
         }
 
@@ -119,11 +92,7 @@ declare namespace myLib {
             // Methods
             set(value: string): this;
         } interface Mail extends Touch {
-            constructor: Mail;
-
-            // Listeners
-            onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-            onTap(target?: HTMLElement): boolean | void;
+            constructor: typeof Mail;
         }
 
         class Password extends Element.HTML.Input { /////////////////////////////////////////////////////////////////// Password ///
@@ -138,11 +107,7 @@ declare namespace myLib {
             // Methods
             set(value: string): this;
         } interface Password extends Touch {
-            constructor: Password;
-
-            // Listeners
-            onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-            onTap(target?: HTMLElement): boolean | void;
+            constructor: typeof Password;
         }
 
         class Phone extends Element.HTML.Input { ///////////////////////////////////////////////////////////////////////// Phone ///
@@ -168,12 +133,7 @@ declare namespace myLib {
             // Methods
             set(value: string): this;
         } interface Phone extends Touch {
-            constructor: Phone;
-
-            // Listeners
-            onBlur(target?: EventTarget): void;
-            onFocus(target?: EventTarget): void;
-            onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
+            constructor: typeof Phone;
             onTap(target?: HTMLElement): boolean | void;
         }
 
@@ -189,11 +149,7 @@ declare namespace myLib {
             // Methods
             set(value: string): this;
         } interface Text extends Touch {
-            constructor: Text;
-
-            // Listeners
-            onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
-            onTap(target?: HTMLElement): boolean | void;
+            constructor: typeof Text;
         }
     }
 }

@@ -2,21 +2,21 @@ declare namespace myLib {
     abstract class Touch extends myLib { ///////////////////////////////////////////////////////////////////////////////////// Touch ///
         constructor();
 
-        // Static
-        static force_wheel: boolean;
-
         // Properties
         touch: Touch.Gizmo;
+        target: HTMLElement | SVGElement;
 
         // Events
-        onBlur(target?: EventTarget): void;
-        onFocus(target?: EventTarget): void;
-        onHold(target?: EventTarget): boolean | void;
-        onKeyDown(code?: string, key?: string, modifiers?: Touch.Modifiers): boolean | void;
+        onBlur(target: EventTarget): boolean;
+        onFocus(target: EventTarget): boolean;
+        onHold(target: Window.Element): boolean | void;
+        onKeyDown(code: string, key: string, modifiers: Touch.Modifiers): boolean | void;
         onTap(target: Window.Element): boolean | void;
         onTouchStart(target: Window.Element): boolean | void;
-        onTouchMove(dX?: number, dY?: number, kR?: number): boolean | void;
+        onTouchMove(dX: number, dY: number, kR: number): boolean | void;
         onTouchEnd(): boolean | void;
+    } interface Touch {
+        constructor: typeof Touch;
     }
 
     namespace Touch {
@@ -35,7 +35,7 @@ declare namespace myLib {
             vX: number;
             vY: number;
         } interface Gizmo {
-            constructor: Gizmo;
+            constructor: typeof Gizmo;
         }
 
         interface Modifiers {
@@ -63,8 +63,8 @@ declare namespace UIEvent {
 
     namespace ObjectList {
         interface Node {
-            target: myLib.Touch & (myLib.Element.HTML | myLib.Element.SVG);
-            parent: Node | null;
+            target: myLib.Touch & myLib.Element.HTML;
+            parent: Node;
         }
     }
 }
